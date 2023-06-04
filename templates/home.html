@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{.PageTitle}}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #333;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        form {
+            margin-top: 10px;
+        }
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+        input[type="text"] {
+            width: 200px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        button[type="submit"] {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #0022b8;
+            color: #fff;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #002164;
+        }
+        .done {
+            text-decoration: line-through;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{.PageTitle}}</h1>
+    <ul>
+        {{range .Notes}}
+        <li>
+            <span class="title">{{.Title}}</span> - {{.Desc}}
+            {{if .Done}}
+            <span class="done">(Done)</span>
+            {{else}}
+            <form method="POST" action="/updateTodo">
+                <input type="hidden" name="title" value="{{.Title}}">
+                <button type="submit">Mark as Done</button>
+            </form>
+            {{end}}
+        </li>
+        {{end}}
+    </ul>
+    <form method="POST" action="/addTodo">
+        <label>Title:</label>
+        <input type="text" name="title">
+        <br>
+        <label>Description:</label>
+        <input type="text" name="desc">
+        <br>
+        <button type="submit">Add TODO</button>
+    </form>
+</body>
+</html>
